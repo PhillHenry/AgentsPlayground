@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: agents-playground
+  main:
+    web-application-type: none
+  ai:
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      chat:
+        options:
+          # Model used by the *agent under test*.
+          # Pick something that supports tool calling, e.g. llama3.1, qwen2.5, mistral.
+          model: ${AGENT_MODEL:llama3.1}
+          temperature: 0.1
+
+agent:
+  evaluation:
+    # The "judge" model used by RelevancyEvaluator / FactCheckingEvaluator.
+    # Ideally stronger and/or different from the agent model to reduce self-grading bias.
+    judge-model: ${JUDGE_MODEL:llama3.1}
+
+logging:
+  level:
+    org.springframework.ai: INFO
