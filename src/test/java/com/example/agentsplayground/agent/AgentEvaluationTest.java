@@ -7,8 +7,8 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.evaluation.RelevancyEvaluator;
 import org.springframework.ai.evaluation.EvaluationRequest;
 import org.springframework.ai.evaluation.EvaluationResponse;
-import org.springframework.ai.ollama.OllamaChatModel;
-import org.springframework.ai.ollama.api.OllamaOptions;
+import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,7 +35,7 @@ class AgentEvaluationTest {
     private Agent agent;
 
     @Autowired
-    private OllamaChatModel ollamaChatModel;
+    private OpenAiChatModel openAiChatModel;
 
     @Value("${agent.evaluation.judge-model}")
     private String judgeModel;
@@ -46,8 +46,8 @@ class AgentEvaluationTest {
     void setUpJudge() {
         // Build a separate ChatClient for the judge so we can pin a (potentially
         // stronger) model that's different from the one driving the agent.
-        ChatClient.Builder judgeChatClientBuilder = ChatClient.builder(ollamaChatModel)
-                .defaultOptions(OllamaOptions.builder()
+        ChatClient.Builder judgeChatClientBuilder = ChatClient.builder(openAiChatModel)
+                .defaultOptions(OpenAiChatOptions.builder()
                         .model(judgeModel)
                         .temperature(0.0)
                         .build());

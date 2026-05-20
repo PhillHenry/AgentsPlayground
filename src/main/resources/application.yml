@@ -4,20 +4,25 @@ spring:
   main:
     web-application-type: none
   ai:
-    ollama:
-      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+    openai:
+      # Point Spring AI's OpenAI-compatible client at the llama.cpp server.
+      # llama.cpp's ./llama-server exposes /v1/chat/completions on port 8080 by default.
+      base-url: ${LLAMACPP_BASE_URL:http://localhost:8080}
+      # llama.cpp ignores the key, but the Spring AI client requires a non-blank value.
+      api-key: ${OPENAI_API_KEY:not-needed}
       chat:
         options:
-          # Model used by the *agent under test*.
-          # Pick something that supports tool calling, e.g. llama3.1, qwen2.5, mistral.
-          model: ${AGENT_MODEL:llama3.1}
+          # llama.cpp serves whatever model was loaded at startup and ignores this
+          # field, but Spring AI requires a model name to be set.
+          model: ${AGENT_MODEL:local-model}
           temperature: 0.1
 
 agent:
   evaluation:
     # The "judge" model used by RelevancyEvaluator / FactCheckingEvaluator.
-    # Ideally stronger and/or different from the agent model to reduce self-grading bias.
-    judge-model: ${JUDGE_MODEL:llama3.1}
+    # With a single llama.cpp server this is the same loaded model; point it at a
+    # second server (see JUDGE_BASE_URL in the test) if you want an independent judge.
+    judge-model: ${JUDGE_MODEL:local-model}
 
 logging:
   level:
