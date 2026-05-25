@@ -27,6 +27,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * </ol>
  *
  * <p>Requires a running Ollama (see README).
+ *
+ * <p>Run the accompanying LLM locally with somthing like</p>
+ * <pre>
+ * docker run --rm -it --gpus all -p 8080:8080 -v /home/henryp/Downloads/:/models ghcr.io/ggml-org/llama.cpp:server-cuda -m /models/llama-3.1-8b-instruct-q4_k_m.gguf --jinja --host 0.0.0.0 --port 8080
+ * </pre>
  */
 @SpringBootTest
 class AgentEvaluationTest {
