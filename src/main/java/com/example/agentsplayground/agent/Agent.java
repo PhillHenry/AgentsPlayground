@@ -1,6 +1,7 @@
 package com.example.agentsplayground.agent;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +20,7 @@ public class Agent {
         this.chatClient = chatClientBuilder
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultTools(calculatorTools)
+                .defaultAdvisors(new SimpleLoggerAdvisor())
                 .build();
     }
 

@@ -27,3 +27,9 @@ agent:
 logging:
   level:
     org.springframework.ai: INFO
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
